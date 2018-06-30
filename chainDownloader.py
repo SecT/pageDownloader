@@ -66,8 +66,8 @@ class ChainPageDownloader:
         pass
 
     def getCurrentPageContents(self):
-	    page = urllib.request.urlopen(self.currentUrl)
-	    return page.read().decode('utf-8')
+        page = urllib.request.urlopen(self.currentUrl)
+        return page.read().decode('utf-8')
 
     #to override
     def processPage(self):
