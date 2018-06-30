@@ -27,6 +27,10 @@ class ChainPageDownloader:
 
         self.limit = limit
 
+        self.charset = 'utf-8' #default
+
+    def setCharset(self, charset):
+        self.charset = charset
 
     #download the whole chain-type website
     def downloadPage(self):
@@ -67,7 +71,7 @@ class ChainPageDownloader:
 
     def getCurrentPageContents(self):
         page = urllib.request.urlopen(self.currentUrl)
-        return page.read().decode('utf-8')
+        return page.read().decode(self.charset)
 
     #to override
     def processPage(self):

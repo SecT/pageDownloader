@@ -13,3 +13,13 @@ class RegexHelper:
             return match
         else:
             return False
+
+    def generateMultipleMatches(pattern, content):
+        result = re.findall(pattern, content)
+
+        if len(result) > 0:
+            matches = result
+
+            return matches
+        else:
+            return False
