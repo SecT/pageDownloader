@@ -2,7 +2,7 @@ import urllib.request
 
 from time import sleep
 
-class HierarchyPageDownloader:
+class HierarchyDownloader:
 
     def __init__(self, url, pageDownloadDelay=0, limit=-1):
         self.currentPageContent = ''
