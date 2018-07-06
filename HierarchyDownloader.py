@@ -16,6 +16,8 @@ class HierarchyDownloader:
 
         self.charset = 'utf-8' #default
 
+        self.currentNumberOfPageDownloaded = 0
+
     def setCharset(self, charset):
         self.charset = charset
 
@@ -38,6 +40,12 @@ class HierarchyDownloader:
             self.processPage(currentPageContent)
 
             sleep(self.pageDownloadDelay)
+
+            self.currentNumberOfPageDownloaded += 1
+
+            if self.currentNumberOfPageDownloaded == self.limit:
+                print("Reached the set page limit. Stopping download...")
+                break
 
         self.postProcess()
 
