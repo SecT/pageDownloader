@@ -36,6 +36,8 @@ class LinearUrlDownloader:
             currentPageContent = self.getPageContents(nextUrl)
             self.processPage(currentPageContent)
 
+            self.currentNumberOfPageDownloaded+=1
+
         self.postProcess()
 
         return
