@@ -12,7 +12,10 @@ class ConcreteLinearUrlDownloaderTest():
 
     def clean(self):
         for i in range(self.downloader.base, self.downloader.limit+1):
-            remove(str(i).zfill(4)+self.format)
+            try:
+                remove(str(i).zfill(4)+self.format)
+            except OSError:
+                pass
 
     def test_downloadPage(self):
 
