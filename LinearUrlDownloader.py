@@ -20,8 +20,13 @@ class LinearUrlDownloader:
 
         self.currentNumberOfPageDownloaded = 0
 
+        self.targetDir = ''
+
     def setCharset(self, charset):
         self.charset = charset
+
+    def setTargetDir(self, targetDir):
+        self.targetDir = targetDir
 
     def downloadPage(self):
 

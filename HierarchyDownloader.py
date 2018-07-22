@@ -18,11 +18,16 @@ class HierarchyDownloader:
 
         self.currentNumberOfPageDownloaded = 0
 
+        self.targetDir = ''
+
     def setCharset(self, charset):
         self.charset = charset
 
     def setFormat(self, fileFormat):
         self.format = fileFormat
+
+    def setTargetDir(self, targetDir):
+        self.targetDir = targetDir
 
     #download the whole hierarchy-type website
     #TEMP: download one level only

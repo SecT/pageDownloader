@@ -27,8 +27,13 @@ class ChainDownloader:
 
         self.charset = 'utf-8' #default
 
+        self.targetDir = ''
+
     def setCharset(self, charset):
         self.charset = charset
+
+    def setTargetDir(self, targetDir):
+        self.targetDir = targetDir
 
     #download the whole chain-type website
     def downloadPage(self):
