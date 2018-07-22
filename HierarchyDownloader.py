@@ -21,6 +21,9 @@ class HierarchyDownloader:
     def setCharset(self, charset):
         self.charset = charset
 
+    def setFormat(self, fileFormat):
+        self.format = fileFormat
+
     #download the whole hierarchy-type website
     #TEMP: download one level only
     def downloadPage(self):
