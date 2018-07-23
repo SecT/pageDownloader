@@ -2,13 +2,19 @@ import urllib.request
 
 from time import sleep
 
+from pageDownloader.regexHelper import RegexHelper
+
 class HierarchyDownloader:
 
-    def __init__(self, url, pageDownloadDelay=0, limit=-1):
+    def __init__(self, url,prefix, urlRegexPatterns, pageDownloadDelay=0, limit=-1):
         self.currentPageContent = ''
 
         self.root = url
         self.currentUrl = self.root
+
+        self.prefix = prefix
+
+        self.urlRegexPatterns = urlRegexPatterns
 
         self.pageDownloadDelay = pageDownloadDelay  # [s] in order to avoid overloading the server
 
@@ -68,9 +74,19 @@ class HierarchyDownloader:
 
         return False
 
-    #to override
+
     def generateNextLevelUrls(self, pageContent):
-        pass
+        rawUrls = RegexHelper.generateMultipleMatches(self.urlRegexPatterns[0],pageContent)
+
+        #TODO: temporarily only works for urlRegexPatterns of size 1
+
+        urls = list()
+
+        for url in rawUrls:
+
+            urls.append(self.prefix+url)
+
+        return urls
 
     def getPageContents(self, url):
         page = urllib.request.urlopen(url)

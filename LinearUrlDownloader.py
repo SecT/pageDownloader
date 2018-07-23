@@ -4,13 +4,17 @@ from time import sleep
 
 class LinearUrlDownloader:
 
-    def __init__(self, url, base, pageDownloadDelay=0, limit=-1):
+    def __init__(self, url, base,prefix, urlRegexPatterns, pageDownloadDelay=0, limit=-1):
         self.currentPageContent = ''
 
         self.baseUrl = url
         self.currentUrl = self.baseUrl
 
         self.base = base
+
+        self.prefix = prefix
+
+        self.urlRegexPatterns = urlRegexPatterns
 
         self.pageDownloadDelay = pageDownloadDelay  # [s] in order to avoid overloading the server
 
@@ -47,9 +51,9 @@ class LinearUrlDownloader:
 
         return
 
-    #to override
+    #to override if default is not suitable
     def generatePageId(self, i):
-        pass
+        return i
 
 
     def getPageContents(self, url):
