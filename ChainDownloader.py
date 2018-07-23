@@ -12,14 +12,19 @@ import urllib.request
 
 from time import sleep
 
+from pageDownloader.regexHelper import RegexHelper
 
 class ChainDownloader:
 
-    def __init__(self, url, pageDownloadDelay=0, limit=-1):
+    def __init__(self, url, prefix, urlRegexPatterns, pageDownloadDelay=0, limit=-1):
         self.currentPageContent = ''
 
         self.root = url
         self.currentUrl = self.root
+
+        self.prefix = prefix
+
+        self.urlRegexPatterns = urlRegexPatterns
 
         self.pageDownloadDelay = pageDownloadDelay  # [s] in order to avoid overloading the server
 
@@ -68,9 +73,22 @@ class ChainDownloader:
             return newUrl
         return False
 
-    #to override
+
     def generateNextPageUrl(self):
-        pass
+        url = RegexHelper.generateSingleMatch(self.urlRegexPatterns[0], self.currentPageContent)
+
+        if url != False:
+
+            url = RegexHelper.generateSingleMatch(self.urlRegexPatterns[1], url)
+
+            url = url.replace('&amp;', '&')
+
+            url = self.prefix + url
+
+            return url
+        else:
+            print("Not found")
+            return False
 
     def getCurrentPageContents(self):
         page = urllib.request.urlopen(self.currentUrl)
