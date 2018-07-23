@@ -75,20 +75,25 @@ class ChainDownloader:
 
 
     def generateNextPageUrl(self):
-        url = RegexHelper.generateSingleMatch(self.urlRegexPatterns[0], self.currentPageContent)
 
-        if url != False:
+        haystack = self.currentPageContent
 
-            url = RegexHelper.generateSingleMatch(self.urlRegexPatterns[1], url)
+        for pattern in self.urlRegexPatterns:
+            url = RegexHelper.generateSingleMatch(pattern, haystack)
 
-            url = url.replace('&amp;', '&')
+            if url != False:
+                haystack = url
+            else:
+                print("Finished")
+                return False
 
-            url = self.prefix + url
+        url = haystack
 
-            return url
-        else:
-            print("Not found")
-            return False
+        url = url.replace('&amp;', '&')
+
+        url = self.prefix + url
+
+        return url
 
     def getCurrentPageContents(self):
         page = urllib.request.urlopen(self.currentUrl)
