@@ -16,7 +16,7 @@ from pageDownloader.regexHelper import RegexHelper
 
 class ChainDownloader:
 
-    def __init__(self, url, prefix, urlRegexPatterns, pageDownloadDelay=0, limit=-1):
+    def __init__(self, url, prefix, urlRegexPatterns, contentRegexPatterns, pageDownloadDelay=0, limit=-1):
         self.currentPageContent = ''
 
         self.root = url
@@ -26,9 +26,13 @@ class ChainDownloader:
 
         self.urlRegexPatterns = urlRegexPatterns
 
+        self.contentRegexPatterns = contentRegexPatterns
+
         self.pageDownloadDelay = pageDownloadDelay  # [s] in order to avoid overloading the server
 
         self.limit = limit
+
+        self.pageNumber = 0
 
         self.charset = 'utf-8' #default
 
@@ -59,6 +63,11 @@ class ChainDownloader:
             self.processPage()
 
             nextPageUrl = self.getNextPageUrl()
+
+            self.pageNumber+=1
+
+            if self.limit > 0 and self.pageNumber > self.limit:
+                break
 
             sleep(self.pageDownloadDelay)
 

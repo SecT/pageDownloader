@@ -10,6 +10,9 @@ class ConcreteChainDownloaderTest():
         except OSError:
             pass
 
+    def setFileFormat(self, fileFormat):
+        self.format = fileFormat
+
     def setFileName(self, fileName):
         self.fileName = fileName
 
