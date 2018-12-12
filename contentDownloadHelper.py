@@ -11,9 +11,11 @@ class ContentDownloadHelper:
         filename = filename.replace('<', '_')
         filename = filename.replace('>', '_')
 
-        newFile = open(targetDir+filename+'.'+format, 'w', encoding=fileEncoding)
-        newFile.write(content)
-        newFile.close()
+        try:
+            with open(targetDir+filename+'.'+format, 'w', encoding=fileEncoding) as newFile:
+                newFile.write(content)
+        except IOError as e:
+            print(e)
 
     def saveImg( url, filename, targetDir):
         urlretrieve(url, targetDir+filename)
