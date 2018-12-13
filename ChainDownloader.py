@@ -69,7 +69,7 @@ class ChainDownloader:
         while nextPageUrl != False:
             print(nextPageUrl)
             self.currentUrl = nextPageUrl
-            self.currentPageContent = self.getCurrentPageContents()
+            self.currentPageContent = ContentDownloadHelper.getPageContents(self.currentUrl, self.charset)
 
             self.processPage()
 
@@ -114,10 +114,6 @@ class ChainDownloader:
         url = self.prefix + url
 
         return url
-
-    def getCurrentPageContents(self):
-        page = urllib.request.urlopen(self.currentUrl)
-        return page.read().decode(self.charset, 'ignore')
 
     #to override
     def processPage(self):

@@ -1,6 +1,7 @@
 import urllib.request
 
 from time import sleep
+from pageDownloader.contentDownloadHelper import ContentDownloadHelper
 
 class LinearUrlDownloader:
 
@@ -42,7 +43,7 @@ class LinearUrlDownloader:
 
             print(nextUrl)
 
-            currentPageContent = self.getPageContents(nextUrl)
+            currentPageContent = ContentDownloadHelper.getPageContents(nextUrl, self.charset)
             self.processPage(currentPageContent)
 
             self.currentNumberOfPageDownloaded+=1
@@ -54,11 +55,6 @@ class LinearUrlDownloader:
     #to override if default is not suitable
     def generatePageId(self, i):
         return i
-
-
-    def getPageContents(self, url):
-        page = urllib.request.urlopen(url)
-        return page.read().decode(self.charset)
 
     #to override
     def processPage(self, pageContent):
