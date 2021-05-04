@@ -78,7 +78,7 @@ class ChainDownloader:
 
             self.pageNumber+=1
 
-            if self.limit > 0 and self.pageNumber > self.limit:
+            if self.limit > 0 and self.pageNumber >= self.limit:
                 break
 
             sleep(self.pageDownloadDelay)
