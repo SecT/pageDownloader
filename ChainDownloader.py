@@ -58,7 +58,8 @@ class ChainDownloader:
     #download the whole chain-type website
     def downloadPage(self):
 
-        self.currentPageContent = self.getCurrentPageContents()
+        #self.currentPageContent = self.getCurrentPageContents()
+        self.currentPageContent = ContentDownloadHelper.getPageContents(self.currentUrl, self.charset)
 
         self.processPage()
 
