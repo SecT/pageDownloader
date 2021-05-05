@@ -63,6 +63,7 @@ class ChainDownloader:
 
         self.processPage()
 
+        self.pageNumber+=1
 
         nextPageUrl = self.getNextPageUrl()
 
