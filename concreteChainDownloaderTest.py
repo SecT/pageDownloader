@@ -59,7 +59,7 @@ class ConcreteChainDownloaderTest():
             ###
 
         elif self.testMode == 'image':
-            self.downloader.downloadPage()
+            #self.downloader.downloadPage()
 
             for i in range(self.downloader.base, self.downloader.limit+1):
                 print('Checking if file exists: '+self.targetDir+str(i).zfill(4)+self.format)

@@ -58,6 +58,10 @@ class ChainDownloader:
     #download the whole chain-type website
     def downloadPage(self):
 
+        if self.processMode == '':
+            print('Error. Process mode is not set. Aborting')
+            return
+
         #self.currentPageContent = self.getCurrentPageContents()
         self.currentPageContent = ContentDownloadHelper.getPageContents(self.currentUrl, self.charset)
 
@@ -79,7 +83,7 @@ class ChainDownloader:
 
             self.pageNumber+=1
 
-            if self.limit > 0 and self.pageNumber >= self.limit:
+            if self.limit > 0 and self.pageNumber > self.limit:
                 break
 
             sleep(self.pageDownloadDelay)
