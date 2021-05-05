@@ -136,7 +136,11 @@ class ChainDownloader:
 
                 #self.chapter += 1
         elif self.processMode == 'image':
-            pass
+            if newContent != False:
+                fileFormat = newContent[-3:]
+                ContentDownloadHelper.saveImg(newContent, str(self.pageNumber).zfill(4)+"."+fileFormat, self.targetDir)
+
+            
 
 
         self.processPagePlaceholder2()
