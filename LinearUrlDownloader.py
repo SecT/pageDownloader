@@ -1,4 +1,5 @@
 import urllib.request
+from http.client import InvalidURL
 
 from time import sleep
 from pageDownloader.regexHelper import RegexHelper
@@ -28,6 +29,8 @@ class LinearUrlDownloader:
 
         self.targetDir = ''
 
+        self.problematicUrlsList = []
+
     def setCharset(self, charset):
         self.charset = charset
 
@@ -54,6 +57,13 @@ class LinearUrlDownloader:
 
         self.postProcess()
 
+
+        if len(self.problematicUrlsList) >0:
+            print("Some pages could not have been downloaded:")
+            
+            for page in self.problematicUrlsList:
+                print(page)
+
         return
 
     #to override if default is not suitable
@@ -62,10 +72,16 @@ class LinearUrlDownloader:
 
     #to override if default is not suitable
     def processPage(self, pageContent):
+
         imgAddress = pageContent
 
         for pattern in self.urlRegexPatterns:
-            imgAddress = RegexHelper.generateSingleMatch(pattern, imgAddress)
+            
+            if imgAddress != False:
+                imgAddress = RegexHelper.generateSingleMatch(pattern, imgAddress)
+            else:
+                print("Regex error for page number: " + str(self.currentNumberOfPageDownloaded+1))
+                return
 
         #print('pattern: '+pattern)
         #print('imgAddress: '+imgAddress)
@@ -79,7 +95,11 @@ class LinearUrlDownloader:
 
 
             print('imgAddress: '+imgAddress)
-            ContentDownloadHelper.saveImg(imgAddress, stripNumber+"."+fileFormat, self.targetDir)
+
+            try:
+                ContentDownloadHelper.saveImg(imgAddress, stripNumber+"."+fileFormat, self.targetDir)
+            except InvalidURL:
+                self.problematicUrlsList.append(imgAddress)
 
         return
 
