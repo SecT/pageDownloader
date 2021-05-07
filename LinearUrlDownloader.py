@@ -82,14 +82,14 @@ class LinearUrlDownloader:
             if imgAddress != False:
                 imgAddress = RegexHelper.generateSingleMatch(pattern, imgAddress)
             else:
-                print("Regex error for page number: " + str(self.currentNumberOfPageDownloaded+1+self.base))
+                print("Regex error for page number: " + str(self.currentNumberOfPageDownloaded+self.base))
                 return
 
         #print('pattern: '+pattern)
         #print('imgAddress: '+imgAddress)
         if imgAddress != False:
 
-            stripNumber = str(self.currentNumberOfPageDownloaded+1+self.base).zfill(4)
+            stripNumber = str(self.currentNumberOfPageDownloaded+self.base).zfill(4)
 
             fileFormat = self.getFormatName(imgAddress)
 
