@@ -7,7 +7,7 @@ from pageDownloader.contentDownloadHelper import ContentDownloadHelper
 
 class LinearUrlDownloader:
 
-    def __init__(self, url, base,prefix, urlRegexPatterns, pageDownloadDelay=0, limit=-1):
+    def __init__(self, url, base ,prefix, urlRegexPatterns, pageDownloadDelay=0, limit=-1):
         self.currentPageContent = ''
 
         self.baseUrl = url
@@ -82,14 +82,14 @@ class LinearUrlDownloader:
             if imgAddress != False:
                 imgAddress = RegexHelper.generateSingleMatch(pattern, imgAddress)
             else:
-                print("Regex error for page number: " + str(self.currentNumberOfPageDownloaded+1))
+                print("Regex error for page number: " + str(self.currentNumberOfPageDownloaded+1+self.base))
                 return
 
         #print('pattern: '+pattern)
         #print('imgAddress: '+imgAddress)
         if imgAddress != False:
 
-            stripNumber = str(self.currentNumberOfPageDownloaded+1).zfill(4)
+            stripNumber = str(self.currentNumberOfPageDownloaded+1+self.base).zfill(4)
 
             fileFormat = self.getFormatName(imgAddress)
 
