@@ -55,6 +55,8 @@ class LinearUrlDownloader:
 
                 self.currentNumberOfPageDownloaded+=1
 
+                sleep(self.pageDownloadDelay)
+
         self.postProcess()
 
 
