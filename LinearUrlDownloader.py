@@ -1,6 +1,7 @@
 import urllib.request
 
 from time import sleep
+from pageDownloader.regexHelper import RegexHelper
 from pageDownloader.contentDownloadHelper import ContentDownloadHelper
 
 class LinearUrlDownloader:
@@ -56,8 +57,23 @@ class LinearUrlDownloader:
     def generatePageId(self, i):
         return i
 
-    #to override
+    #to override if default is not suitable
     def processPage(self, pageContent):
+        imgAddress = pageContent
+
+        for pattern in self.urlRegexPatterns:
+            imgAddress = RegexHelper.generateSingleMatch(pattern, imgAddress)
+
+        if imgAddress != False:
+
+            stripNumber = str(self.currentNumberOfPageDownloaded+1).zfill(4)
+
+            fileFormat = self.getFormatName(imgAddress)
+
+            imgAddress = self.prefix + imgAddress
+
+            ContentDownloadHelper.saveImg(imgAddress, stripNumber+"."+fileFormat, self.targetDir)
+
         return
 
     #to override
