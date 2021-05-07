@@ -45,9 +45,12 @@ class LinearUrlDownloader:
             print(nextUrl)
 
             currentPageContent = ContentDownloadHelper.getPageContents(nextUrl, self.charset)
-            self.processPage(currentPageContent)
 
-            self.currentNumberOfPageDownloaded+=1
+            if not self.skip(currentPageContent):
+
+                self.processPage(currentPageContent)
+
+                self.currentNumberOfPageDownloaded+=1
 
         self.postProcess()
 
@@ -64,6 +67,8 @@ class LinearUrlDownloader:
         for pattern in self.urlRegexPatterns:
             imgAddress = RegexHelper.generateSingleMatch(pattern, imgAddress)
 
+        #print('pattern: '+pattern)
+        #print('imgAddress: '+imgAddress)
         if imgAddress != False:
 
             stripNumber = str(self.currentNumberOfPageDownloaded+1).zfill(4)
@@ -72,9 +77,15 @@ class LinearUrlDownloader:
 
             imgAddress = self.prefix + imgAddress
 
+
+            print('imgAddress: '+imgAddress)
             ContentDownloadHelper.saveImg(imgAddress, stripNumber+"."+fileFormat, self.targetDir)
 
         return
+
+    #to override if default is not suitable
+    def skip(self, pageContent):
+        return False
 
     #to override
     def postProcess(self):
