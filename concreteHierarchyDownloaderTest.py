@@ -24,7 +24,7 @@ class ConcreteHierarchyDownloaderTest:
     def createTestDir(self, dirNamePrefix):
         now = datetime.datetime.now()
 
-        datetimeForDirName = str(now.year).zfill(4)+str(now.month).zfill(2)+str(now.day).zfill(2)+'_'+str(now.hour).zfill(2)+str(now.minute).zfill(2)
+        datetimeForDirName = str(now.year).zfill(4)+str(now.month).zfill(2)+str(now.day).zfill(2)+'_'+str(now.hour).zfill(2)+str(now.minute).zfill(2)+'_'+str(now.second).zfill(2)
         targetDir = dirNamePrefix+'_'+ datetimeForDirName
 
         mkdir(targetDir)
