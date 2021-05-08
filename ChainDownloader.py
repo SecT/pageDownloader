@@ -9,6 +9,7 @@
 #Call downloadPage()
 
 import urllib.request
+from http.client import InvalidURL
 
 from time import sleep
 
@@ -45,6 +46,8 @@ class ChainDownloader:
         self.data = ''
 
         self.processMode = ''
+
+        self.problematicUrlsList = []
 
     def setCharset(self, charset):
         self.charset = charset
@@ -89,6 +92,12 @@ class ChainDownloader:
             sleep(self.pageDownloadDelay)
 
         self.postProcess()
+
+        if len(self.problematicUrlsList) >0:
+            print("Some pages could not have been downloaded:")
+
+            for page in self.problematicUrlsList:
+                print(page)
 
         return
 
@@ -142,8 +151,11 @@ class ChainDownloader:
         elif self.processMode == 'image':
             if newContent != False:
                 fileFormat = newContent[-3:]
-                ContentDownloadHelper.saveImg(newContent, str(self.pageNumber).zfill(4)+"."+fileFormat, self.targetDir)
 
+                try:
+                    ContentDownloadHelper.saveImg(newContent, str(self.pageNumber).zfill(4)+"."+fileFormat, self.targetDir)
+                except InvalidURL:
+                    self.problematicUrlsList.append(imgAddress)
             
 
 
