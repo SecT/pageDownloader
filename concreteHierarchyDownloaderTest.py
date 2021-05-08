@@ -59,5 +59,9 @@ class ConcreteHierarchyDownloaderTest:
             contents = fileToRead.read()
             fileToRead.close()
 
+            #preprocessing
+            contents = contents.replace('\r\n','')
+            contents = contents.replace('\n','')
+
             TestCase('__init__').assertEqual(len(contents), val)  #we do not have an instance of TestCase
             ###
