@@ -36,7 +36,7 @@ class ConcreteLinearUrlDownloaderTest():
 
         self.downloader.downloadPage()
 
-        for i in range(self.downloader.base, self.downloader.limit+1):
+        for i in range(self.downloader.base, self.downloader.limit+self.downloader.base):
             print('Checking if file exists: '+self.targetDir+str(i).zfill(4)+self.format)
             self.assertTrue(isfile(self.targetDir+str(i).zfill(4)+self.format))
 
