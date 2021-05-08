@@ -67,7 +67,8 @@ class ChainDownloader:
 
         nextPageUrl = self.currentUrl
 
-        while nextPageUrl != False:
+        #while nextPageUrl != False:
+        while not self.isStop(0, nextPageUrl):
             print(nextPageUrl)
             self.currentUrl = nextPageUrl
             self.currentPageContent = ContentDownloadHelper.getPageContents(self.currentUrl, self.charset)
@@ -92,6 +93,10 @@ class ChainDownloader:
                 print(page)
 
         return
+
+    def isStop(self,currentId, nextPageUrl):
+        if nextPageUrl == False:
+            return True
 
     def getNextPageUrl(self, currentId = 0):
         newUrl = self.generateNextPageUrl()

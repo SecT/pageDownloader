@@ -39,9 +39,12 @@ class LinearUrlDownloader:
 
     def downloadPage(self):
 
-        for i in range(self.limit):
+        #for i in range(self.limit):
 
-            nextUrl = self.getNextPageUrl(i)
+        currentId = 0
+
+        while not self.isStop(currentId,''):
+            nextUrl = self.getNextPageUrl(currentId)
 
             print(nextUrl)
 
@@ -55,6 +58,8 @@ class LinearUrlDownloader:
 
                 sleep(self.pageDownloadDelay)
 
+            currentId+=1
+
         self.postProcess()
 
         if len(self.problematicUrlsList) >0:
@@ -64,6 +69,10 @@ class LinearUrlDownloader:
                 print(page)
 
         return
+
+    def isStop(self,currentId, nextPageUrl):
+        if currentId >= self.limit:
+            return True
 
     def getNextPageUrl(self, currentId = 0):
 
