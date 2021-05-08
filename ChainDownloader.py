@@ -35,7 +35,7 @@ class ChainDownloader:
 
         self.limit = limit
 
-        self.pageNumber = 0
+        self.currentNumberOfPageDownloaded = 0
 
         self.charset = 'utf-8' #default
 
@@ -65,15 +65,7 @@ class ChainDownloader:
             print('Error. Process mode is not set. Aborting')
             return
 
-        #self.currentPageContent = self.getCurrentPageContents()
-        self.currentPageContent = ContentDownloadHelper.getPageContents(self.currentUrl, self.charset)
-
-        self.processPage()
-
-        self.pageNumber+=1
-
-        nextPageUrl = self.getNextPageUrl()
-
+        nextPageUrl = self.currentUrl
 
         while nextPageUrl != False:
             print(nextPageUrl)
@@ -84,9 +76,9 @@ class ChainDownloader:
 
             nextPageUrl = self.getNextPageUrl()
 
-            self.pageNumber+=1
+            self.currentNumberOfPageDownloaded+=1
 
-            if self.limit > 0 and self.pageNumber > self.limit:
+            if self.limit > 0 and self.currentNumberOfPageDownloaded > self.limit:
                 break
 
             sleep(self.pageDownloadDelay)
@@ -101,7 +93,7 @@ class ChainDownloader:
 
         return
 
-    def getNextPageUrl(self):
+    def getNextPageUrl(self, currentId = 0):
         newUrl = self.generateNextPageUrl()
 
         if newUrl != '':
@@ -109,7 +101,7 @@ class ChainDownloader:
         return False
 
 
-    def generateNextPageUrl(self):
+    def generateNextPageUrl(self, currentId = 0):
 
         haystack = self.currentPageContent
 
@@ -153,7 +145,7 @@ class ChainDownloader:
                 fileFormat = newContent[-3:]
 
                 try:
-                    ContentDownloadHelper.saveImg(newContent, str(self.pageNumber).zfill(4)+"."+fileFormat, self.targetDir)
+                    ContentDownloadHelper.saveImg(newContent, str(self.currentNumberOfPageDownloaded).zfill(4)+"."+fileFormat, self.targetDir)
                 except InvalidURL:
                     self.problematicUrlsList.append(imgAddress)
             

@@ -41,9 +41,7 @@ class LinearUrlDownloader:
 
         for i in range(self.limit):
 
-            pageId = self.generatePageId(self.base + i)
-
-            nextUrl = self.baseUrl + str(pageId)
+            nextUrl = self.getNextPageUrl(i)
 
             print(nextUrl)
 
@@ -59,7 +57,6 @@ class LinearUrlDownloader:
 
         self.postProcess()
 
-
         if len(self.problematicUrlsList) >0:
             print("Some pages could not have been downloaded:")
             
@@ -67,6 +64,23 @@ class LinearUrlDownloader:
                 print(page)
 
         return
+
+    def getNextPageUrl(self, currentId = 0):
+
+        nextUrl = self.generateNextPageUrl(currentId)
+
+        if nextUrl != '':
+            return nextUrl
+
+        return nextUrl
+
+    def generateNextPageUrl(self, currentId = 0):
+        pageId = self.generatePageId(self.base + currentId)
+
+        nextUrl = self.baseUrl + str(pageId)
+
+        return nextUrl
+
 
     #to override if default is not suitable
     def generatePageId(self, i):
