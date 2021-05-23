@@ -1,5 +1,6 @@
 #from urllib.request import urlretrieve
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 from shutil import copyfileobj
 
 class ContentDownloadHelper:
@@ -30,6 +31,8 @@ class ContentDownloadHelper:
         print('saveImg: '+url)
         req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
 
-        with urlopen(req) as in_stream, open(targetDir+filename, 'wb') as out_file:
-            copyfileobj(in_stream, out_file)
-
+        try:
+            with urlopen(req) as in_stream, open(targetDir+filename, 'wb') as out_file:
+                copyfileobj(in_stream, out_file)
+        except HTTPError as e:
+            print(e.read())
