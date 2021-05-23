@@ -147,7 +147,7 @@ class ChainDownloader:
                 #self.chapter += 1
         elif self.processMode == 'image':
             if newContent != False:
-                fileFormat = newContent[-3:]
+                fileFormat = self.getFileFormat(newContent)
 
                 try:
                     ContentDownloadHelper.saveImg(newContent, str(self.currentNumberOfPageDownloaded).zfill(4)+"."+fileFormat, self.targetDir)
@@ -159,6 +159,10 @@ class ChainDownloader:
         self.processPagePlaceholder2()
 
         return
+
+    #to override
+    def getFileFormat(self,content):
+        return content[-3:]
 
 
     #to override
