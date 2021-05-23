@@ -19,13 +19,14 @@ from pageDownloader.contentDownloadHelper import ContentDownloadHelper
 
 class ChainDownloader:
 
-    def __init__(self, url, prefix, urlRegexPatterns, contentRegexPatterns, pageDownloadDelay=0, limit=-1):
+    def __init__(self, url, prefix, urlRegexPatterns, contentRegexPatterns, pageDownloadDelay=0, limit=-1, contentPrefix=''):
         self.currentPageContent = ''
 
         self.root = url
         self.currentUrl = self.root
 
         self.prefix = prefix
+        self.contentPrefix = contentPrefix
 
         self.urlRegexPatterns = urlRegexPatterns
 
@@ -148,6 +149,8 @@ class ChainDownloader:
         elif self.processMode == 'image':
             if newContent != False:
                 fileFormat = self.getFileFormat(newContent)
+
+                newContent = self.contentPrefix + newContent
 
                 try:
                     ContentDownloadHelper.saveImg(newContent, str(self.currentNumberOfPageDownloaded).zfill(4)+"."+fileFormat, self.targetDir)
