@@ -153,7 +153,7 @@ class ChainDownloader:
                 newContent = self.contentPrefix + newContent
 
                 try:
-                    ContentDownloadHelper.saveImg(newContent, str(self.currentNumberOfPageDownloaded).zfill(4)+"."+fileFormat, self.targetDir)
+                    ContentDownloadHelper.saveImg(newContent, self.getImageFileName(fileFormat), self.targetDir)
                 except InvalidURL:
                     self.problematicUrlsList.append(imgAddress)
             
@@ -167,6 +167,8 @@ class ChainDownloader:
     def getFileFormat(self,content):
         return content[-3:]
 
+    def getImageFileName(self, fileFormat):
+        return str(self.currentNumberOfPageDownloaded).zfill(4)+"."+fileFormat
 
     #to override
     def postProcess(self):
