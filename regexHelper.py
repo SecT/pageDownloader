@@ -1,5 +1,7 @@
-import re
+#Wrapper for basic regex operations to be used by other projects
+#version 1.0
 
+import re
 
 class RegexHelper:
     def __init__(self):
