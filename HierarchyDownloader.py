@@ -5,9 +5,10 @@ from time import sleep
 from pageDownloader.regexHelper import RegexHelper
 from pageDownloader.contentDownloadHelper import ContentDownloadHelper
 
+
 class HierarchyDownloader:
 
-    def __init__(self, url,prefix, urlRegexPatterns, pageDownloadDelay=0, limit=-1):
+    def __init__(self, url, prefix, urlRegexPatterns, pageDownloadDelay=0, limit=-1):
         self.currentPageContent = ''
 
         self.root = url
@@ -21,11 +22,13 @@ class HierarchyDownloader:
 
         self.limit = limit
 
-        self.charset = 'utf-8' #default
+        self.charset = 'utf-8'  # default
 
         self.currentNumberOfPageDownloaded = 0
 
         self.targetDir = ''
+
+        self.format = None
 
     def setCharset(self, charset):
         self.charset = charset
@@ -36,14 +39,13 @@ class HierarchyDownloader:
     def setTargetDir(self, targetDir):
         self.targetDir = targetDir
 
-    #download the whole hierarchy-type website
-    #TEMP: download one level only
+    # download the whole hierarchy-type website
+    # TEMP: download one level only
     def downloadPage(self):
 
         currentPageContent = ContentDownloadHelper.getPageContents(self.root, self.charset)
 
         self.processPage(currentPageContent)
-
 
         nextLevelUrls = self.getNextLevelUrls(currentPageContent)
 
@@ -75,24 +77,22 @@ class HierarchyDownloader:
 
         return False
 
-
     def generateNextLevelUrls(self, pageContent):
-        rawUrls = RegexHelper.generateMultipleMatches(self.urlRegexPatterns[0],pageContent)
+        rawUrls = RegexHelper.generateMultipleMatches(self.urlRegexPatterns[0], pageContent)
 
-        #TODO: temporarily only works for urlRegexPatterns of size 1
+        # TODO: temporarily only works for urlRegexPatterns of size 1
 
         urls = list()
 
         for url in rawUrls:
-
-            urls.append(self.prefix+url)
+            urls.append(self.prefix + url)
 
         return urls
 
-    #to override
+    # to override
     def processPage(self, pageContent):
         return
 
-    #to override
+    # to override
     def postProcess(self):
         return

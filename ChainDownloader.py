@@ -1,12 +1,12 @@
-#use with python3
+# use with python3
 
-#HOW TO USE
-#Import the ChainPageDownloader class
-#Create a new class, inheriting from ChainPageDownloader
-#Define a constructor. The constructor should call the ChainPageDownloader constructor
-#Override methods: generateNextPageUrl(), processPage(), postProcess()
-#Create an instance of the new class
-#Call downloadPage()
+# HOW TO USE
+# Import the ChainPageDownloader class
+# Create a new class, inheriting from ChainPageDownloader
+# Define a constructor. The constructor should call the ChainPageDownloader constructor
+# Override methods: generateNextPageUrl(), processPage(), postProcess()
+# Create an instance of the new class
+# Call downloadPage()
 
 import urllib.request
 from http.client import InvalidURL
@@ -19,7 +19,8 @@ from pageDownloader.contentDownloadHelper import ContentDownloadHelper
 
 class ChainDownloader:
 
-    def __init__(self, url, prefix, urlRegexPatterns, contentRegexPatterns, pageDownloadDelay=0, limit=-1, contentPrefix=''):
+    def __init__(self, url, prefix, urlRegexPatterns, contentRegexPatterns, pageDownloadDelay=0, limit=-1,
+                 contentPrefix=''):
         self.currentPageContent = ''
 
         self.root = url
@@ -38,7 +39,7 @@ class ChainDownloader:
 
         self.currentNumberOfPageDownloaded = 0
 
-        self.charset = 'utf-8' #default
+        self.charset = 'utf-8'  # default
 
         self.targetDir = ''
 
@@ -59,7 +60,7 @@ class ChainDownloader:
     def setProcessMode(self, mode):
         self.processMode = mode
 
-    #download the whole chain-type website
+    # download the whole chain-type website
     def downloadPage(self):
 
         if self.processMode == '':
@@ -68,7 +69,7 @@ class ChainDownloader:
 
         nextPageUrl = self.currentUrl
 
-        #while nextPageUrl != False:
+        # while nextPageUrl != False:
         while not self.isStop(0, nextPageUrl):
             print(nextPageUrl)
             self.currentUrl = nextPageUrl
@@ -78,7 +79,7 @@ class ChainDownloader:
 
             nextPageUrl = self.getNextPageUrl()
 
-            self.currentNumberOfPageDownloaded+=1
+            self.currentNumberOfPageDownloaded += 1
 
             if self.limit > 0 and self.currentNumberOfPageDownloaded > self.limit:
                 break
@@ -87,7 +88,7 @@ class ChainDownloader:
 
         self.postProcess()
 
-        if len(self.problematicUrlsList) >0:
+        if len(self.problematicUrlsList) > 0:
             print("Some pages could not have been downloaded:")
 
             for page in self.problematicUrlsList:
@@ -95,19 +96,18 @@ class ChainDownloader:
 
         return
 
-    def isStop(self,currentId, nextPageUrl):
-        if nextPageUrl == False:
+    def isStop(self, currentId, nextPageUrl):
+        if not nextPageUrl:
             return True
 
-    def getNextPageUrl(self, currentId = 0):
+    def getNextPageUrl(self, currentId=0):
         newUrl = self.generateNextPageUrl()
 
         if newUrl != '':
             return newUrl
         return False
 
-
-    def generateNextPageUrl(self, currentId = 0):
+    def generateNextPageUrl(self, currentId=0):
 
         haystack = self.currentPageContent
 
@@ -128,7 +128,7 @@ class ChainDownloader:
 
         return url
 
-    #to override
+    # to override
     def processPage(self):
 
         self.processPagePlaceholder1()
@@ -140,12 +140,12 @@ class ChainDownloader:
 
         if self.processMode == 'story':
             if newContent != False:
-                #self.data +=  "<br><br><br>"
+                # self.data +=  "<br><br><br>"
 
-                #append chapter to string
-                self.data +=  newContent
+                # append chapter to string
+                self.data += newContent
 
-                #self.chapter += 1
+                # self.chapter += 1Ł
         elif self.processMode == 'image':
             if newContent != False:
                 fileFormat = self.getFileFormat(newContent)
@@ -156,30 +156,28 @@ class ChainDownloader:
                     ContentDownloadHelper.saveImg(newContent, self.getImageFileName(fileFormat), self.targetDir)
                 except InvalidURL:
                     self.problematicUrlsList.append(imgAddress)
-            
-
 
         self.processPagePlaceholder2()
 
-        return
+        return True
 
-    #to override
-    def getFileFormat(self,content):
+    # to override
+    def getFileFormat(self, content):
         return content[-3:]
 
     def getImageFileName(self, fileFormat):
-        return str(self.currentNumberOfPageDownloaded).zfill(4)+"."+fileFormat
+        return str(self.currentNumberOfPageDownloaded).zfill(4) + "." + fileFormat
 
-    #to override
+    # to override
     def postProcess(self):
         if self.processMode == 'story':
             ContentDownloadHelper.saveContentToFile('story', self.data, self.targetDir, 'htm')
-        return
+        return True
 
-    #to override
+    # to override
     def processPagePlaceholder1(self):
         pass
 
-    #to override
+    # to override
     def processPagePlaceholder2(self):
         pass
