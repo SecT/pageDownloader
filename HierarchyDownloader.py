@@ -3,7 +3,7 @@ import urllib.request
 from time import sleep
 
 from pageDownloader.regexHelper import RegexHelper
-from pageDownloader.contentDownloadHelper import ContentDownloadHelper
+from pageDownloader.contentDownloadHelperWrapper import ContentDownloadHelperWrapper
 
 
 class HierarchyDownloader:
@@ -43,7 +43,7 @@ class HierarchyDownloader:
     # TEMP: download one level only
     def downloadPage(self):
 
-        currentPageContent = ContentDownloadHelper.getPageContents(self.root, self.charset)
+        currentPageContent = ContentDownloadHelperWrapper.getPageContents(self.root, self.charset)
 
         self.processPage(currentPageContent)
 
@@ -52,7 +52,7 @@ class HierarchyDownloader:
         for url in nextLevelUrls:
             print(url)
 
-            currentPageContent = ContentDownloadHelper.getPageContents(url, self.charset)
+            currentPageContent = ContentDownloadHelperWrapper.getPageContents(url, self.charset)
 
             self.processPage(currentPageContent)
 

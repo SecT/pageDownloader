@@ -3,7 +3,7 @@ from http.client import InvalidURL
 
 from time import sleep
 from pageDownloader.regexHelper import RegexHelper
-from pageDownloader.contentDownloadHelper import ContentDownloadHelper
+from pageDownloader.contentDownloadHelperWrapper import ContentDownloadHelperWrapper
 
 
 class LinearUrlDownloader:
@@ -49,7 +49,7 @@ class LinearUrlDownloader:
 
             print(nextUrl)
 
-            currentPageContent = ContentDownloadHelper.getPageContents(nextUrl, self.charset)
+            currentPageContent = ContentDownloadHelperWrapper.getPageContents(nextUrl, self.charset)
 
             if not self.skip(currentPageContent):
                 self.processPage(currentPageContent)
@@ -120,7 +120,7 @@ class LinearUrlDownloader:
             print('imgAddress: ' + imgAddress)
 
             try:
-                ContentDownloadHelper.saveImg(imgAddress, stripNumber + "." + fileFormat, self.targetDir)
+                ContentDownloadHelperWrapper.saveImg(imgAddress, stripNumber + "." + fileFormat, self.targetDir)
             except InvalidURL:
                 self.problematicUrlsList.append(imgAddress)
 

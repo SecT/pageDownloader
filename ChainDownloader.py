@@ -14,7 +14,7 @@ from http.client import InvalidURL
 from time import sleep
 
 from pageDownloader.regexHelper import RegexHelper
-from pageDownloader.contentDownloadHelper import ContentDownloadHelper
+from pageDownloader.contentDownloadHelperWrapper import ContentDownloadHelperWrapper
 
 
 class ChainDownloader:
@@ -73,7 +73,7 @@ class ChainDownloader:
         while not self.isStop(0, nextPageUrl):
             print(nextPageUrl)
             self.currentUrl = nextPageUrl
-            self.currentPageContent = ContentDownloadHelper.getPageContents(self.currentUrl, self.charset)
+            self.currentPageContent = ContentDownloadHelperWrapper.getPageContents(self.currentUrl, self.charset)
 
             self.processPage()
 
@@ -153,7 +153,7 @@ class ChainDownloader:
                 newContent = self.contentPrefix + newContent
 
                 try:
-                    ContentDownloadHelper.saveImg(newContent, self.getImageFileName(fileFormat), self.targetDir)
+                    ContentDownloadHelperWrapper.saveImg(newContent, self.getImageFileName(fileFormat), self.targetDir)
                 except InvalidURL:
                     self.problematicUrlsList.append(imgAddress)
 
@@ -171,7 +171,7 @@ class ChainDownloader:
     # to override
     def postProcess(self):
         if self.processMode == 'story':
-            ContentDownloadHelper.saveContentToFile('story', self.data, self.targetDir, 'htm')
+            ContentDownloadHelperWrapper.saveContentToFile('story', self.data, self.targetDir, 'htm')
         return True
 
     # to override
