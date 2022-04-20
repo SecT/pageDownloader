@@ -5,6 +5,7 @@ from shutil import copyfileobj
 
 from .contentDownloadHelper import getPageContents as generalGetPageContents
 from .contentDownloadHelper import saveImg as generalSaveImg
+from .fileOperations import writeStringToFile
 
 class ContentDownloadHelperWrapper:
     def __init__(self):
@@ -20,11 +21,7 @@ class ContentDownloadHelperWrapper:
         filename = filename.replace('<', '_')
         filename = filename.replace('>', '_')
 
-        try:
-            with open(targetDir + filename + '.' + format, 'w', encoding=fileEncoding) as newFile:
-                newFile.write(content)
-        except IOError as e:
-            print(e)
+        writeStringToFile(targetDir + filename + '.' + format, content, fileEncoding)
 
     def saveImg(url, filename, targetDir):
         generalSaveImg(url, filename, targetDir)
